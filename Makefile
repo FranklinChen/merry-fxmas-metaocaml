@@ -1,5 +1,5 @@
 # Where the BER MetaOCaml was installed
-METAOCAMLBIN = $(HOME)/ocaml/ocaml-3.11.2/bin
+METAOCAMLBIN = $(HOME)/ocaml/ometa4/bin
 
 METAOCAMLC = $(METAOCAMLBIN)/metaocamlc
 RESULT = main
