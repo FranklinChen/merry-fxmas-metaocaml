@@ -1,10 +1,10 @@
 # merry-fxmas
 
-Say "Merry Christmas" 25 times counting down, using [BER MetaOCaml](http://okmij.org/ftp/ML/index.html#ber-metaocaml) to do staging.
+Say "Merry Christmas" 25 times counting down, using [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml) to do staging.
 
 ## Usage
 
-First, install BER MetaOCaml from the [source code archive](http://okmij.org/ftp/ML/ber-metaocaml.tar.gz).
+First, install [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml.html).
 
 Then edit `Makefile` to point to the location of the installed MetaOCaml executables.
 
