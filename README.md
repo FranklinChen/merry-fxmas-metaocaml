@@ -2,9 +2,29 @@
 
 Say "Merry Christmas" 25 times counting down, using [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml) to do staging.
 
-## Usage
+## Prerequisite: install [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml.html)
 
-First, install [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml.html). Here is how I install it according to the instructions using Git and downloading `metaocaml.bundle`:
+### Simple install with [OPAM](http://opam.ocamlpro.com/)
+
+Install [OPAM](http://opam.ocamlpro.com/).
+
+Switch the default compiler to BER MetaOCaml:
+
+Run to list which versions of BER MetaOcaml are available:
+```
+$ opam switch
+```
+
+(As of writing, `4.00.1+BER` is the most recent version available.)
+
+```
+$ opam switch 4.00.1+BER
+$ eval `opam config env`
+```
+
+### (Old annoying way to install)
+
+Follow the original instructions using Git and downloading `metaocaml.bundle`:
 
 ```
 $ cd ~/ocaml # My directory of OCaml stuff
@@ -25,9 +45,13 @@ $ make all
 $ make install
 ```
 
-Then edit `Makefile` to point to the location of the installed MetaOCaml executables; for me the binaries are in `~/ocaml/ometa4/bin`.
+## Edit `Makefile`
 
-Then you can compile and run the program:
+If you use OPAM and already ran `opam switch 4.00.1+BER`, everything should be set.
+
+Otherwise, edit `Makefile` to point to the location of the installed MetaOCaml executables.
+
+## Run the program
 
 ```
 $ make run
