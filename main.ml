@@ -27,4 +27,4 @@ let action_code = repeat_message_staged 25
 (*
   Execute the code.
 *)
-let _ = .! action_code
+let _ = Runcode.run action_code

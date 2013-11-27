@@ -1,2 +1,2 @@
-*.cm*
-main
+_build
+main.byte
