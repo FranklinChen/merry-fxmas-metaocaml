@@ -20,7 +20,7 @@ $ eval `opam config env`
 ## Build the program
 
 ```console
-$ make
+$ ocamlbuild -ocamlc metaocamlc src/main.byte
 ```
 
 ## Run the program
