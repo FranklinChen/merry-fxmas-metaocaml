@@ -1,0 +1,12 @@
+opam-version: "1.2"
+name: "merry-fxmas"
+version: "1.0.0"
+maintainer: "Franklin Chen <franklinchen@franklinchen.com>"
+authors: "Franklin Chen <franklinchen@franklinchen.com>"
+homepage: "https://github.com/FranklinChen/merry-fxmas-metaocaml"
+bug-reports: "https://github.com/FranklinChen/merry-fxmas-metaocaml/issues"
+license: "BSD3"
+dev-repo: "https://github.com/FranklinChen/merry-fxmas-metaocaml"
+build: [
+  ["ocamlbuild" "-ocamlc" "metaocamlc" "src/main.byte"]
+]
