@@ -1,9 +1,12 @@
 language: c
-sudo: required
+sudo: false
+addons:
+  apt:
+    sources:
+    - avsm
+    packages:
+    - opam
 install:
- - sudo add-apt-repository --yes ppa:avsm/ocaml42+opam12
- - sudo apt-get update -qq
- - sudo apt-get install -y opam
  - echo "Y" | opam init --comp 4.02.1+BER
  - eval $(opam config env)
  - which ocamlbuild
