@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  - pull_request
+  - push
+  - workflow_dispatch
+
+jobs:
+  tests:
+    name: Tests
+
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macOS-latest
+          - windows-latest
+        ocaml-version:
+          - 4.11.1+BER
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Use OCaml ${{ matrix.ocaml-version }}
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: ${{ matrix.ocaml-version }}
+
+      - name: Deps
+        run: opam install -y ocamlbuild
+
+      - name: Build
+        run: ocamlbuild -ocamlc metaocamlc src/main.byte
+
+      - name: Run
+        run: ./main.byte

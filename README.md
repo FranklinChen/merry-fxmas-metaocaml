@@ -1,8 +1,6 @@
 # merry-fxmas in MetaOCaml
 
-[![Build Status](https://travis-ci.org/FranklinChen/merry-fxmas-metaocaml.png)](https://travis-ci.org/FranklinChen/merry-fxmas-metaocaml)
-
-(Oops, Travis build does not currently work.)
+![CI](https://github.com/FranklinChen/merry-fxmas-metaocaml/workflows/CI/badge.svg)
 
 Say "Merry Christmas" 25 times counting down, using [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml) to do staging.
 
@@ -14,12 +12,30 @@ Install [OPAM](http://opam.ocamlpro.com/) if you don't already have it installed
 
 Switch to, or install, [BER MetaOCaml](http://okmij.org/ftp/ML/MetaOCaml.html):
 
+If first time:
+
 ```console
-$ opam switch 4.04.0+BER
+$ opam switch create 4.11.1+BER
+```
+
+Else:
+
+```console
+$ opam switch 4.11.1+BER
+```
+
+Then
+```
 $ eval `opam config env`
 ```
 
 ## Build the program
+
+If you don't already have `ocamlbuild` installed:
+
+```console
+$ opam install ocamlbuild
+```
 
 ```console
 $ ocamlbuild -ocamlc metaocamlc src/main.byte
