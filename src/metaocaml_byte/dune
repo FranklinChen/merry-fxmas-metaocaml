@@ -1,0 +1,10 @@
+; The `metaocaml` findlib library, made correct for bytecode linking under dune.
+; Depend on this instead of on `metaocaml` directly. It has no modules; it only
+; adds the compiler-libs that metaocaml's META lists under `requires(byte)`,
+; which dune does not evaluate, in the order linking needs. See
+; docs/ARCHITECTURE.md, "Dune ignores requires(byte)".
+
+(library
+ (name metaocaml_byte)
+ (modules)
+ (libraries compiler-libs.bytecomp compiler-libs.toplevel metaocaml))

@@ -1,3 +1,6 @@
 /_build
-/*.native
-/*.byte
+# Project-local opam switch (`opam switch create . ...`).
+/_opam
+
+# graft's local graph cache: regenerable, not committed (run `graft build`).
+/graft/

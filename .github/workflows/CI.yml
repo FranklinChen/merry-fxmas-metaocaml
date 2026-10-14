@@ -1,39 +1,68 @@
-name: Test
+name: CI
 
 on:
-  - pull_request
-  - push
-  - workflow_dispatch
+  # Pull requests are covered by pull_request; also running on every branch
+  # push would test each PR commit twice.
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A newer push to the same ref supersedes any run still in progress.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  tests:
-    name: Tests
+  build:
+    name: ${{ matrix.os }}
 
     strategy:
+      fail-fast: false
       matrix:
+        # Supported platforms: Linux and macOS. (BER MetaOCaml is untested
+        # upstream on Windows.)
         os:
           - ubuntu-latest
-          - macOS-latest
-          - windows-latest
-        ocaml-version:
-          - 4.11.1+BER
+          - macos-latest
 
     runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Use OCaml ${{ matrix.ocaml-version }}
-        uses: avsm/setup-ocaml@v1
+        uses: actions/checkout@v7
         with:
-          ocaml-version: ${{ matrix.ocaml-version }}
+          # Nothing here pushes, so do not leave the token in .git/config.
+          persist-credentials: false
 
-      - name: Deps
-        run: opam install -y ocamlbuild
+      # The BER MetaOCaml compiler is the switch's compiler (see
+      # docs/ARCHITECTURE.md). setup-ocaml caches the switch, so the compiler
+      # is rebuilt only on a cache miss; dependencies are installed fresh.
+      - name: Set up BER MetaOCaml
+        uses: ocaml/setup-ocaml@v3
+        with:
+          ocaml-compiler: ocaml-variants.5.3.0+BER
+
+      - name: Install dependencies
+        run: opam install . --deps-only --with-test
+
+      - name: Lint opam file
+        run: opam lint merry-fxmas.opam
+
+      # Fails when merry-fxmas.opam is stale relative to dune-project. (dune
+      # test would catch this too; a named step makes the failure obvious.)
+      - name: Check opam file is up to date
+        run: opam exec -- dune build @opam
 
       - name: Build
-        run: ocamlbuild -ocamlc metaocamlc src/main.byte
+        run: opam exec -- dune build
+
+      - name: Test
+        run: opam exec -- dune test
 
       - name: Run
-        run: ./main.byte
+        run: opam exec -- dune exec merry-fxmas

@@ -1,0 +1,6 @@
+; The staged generator. Bytecode only; see docs/ARCHITECTURE.md, "Bytecode only".
+
+(library
+ (name merry_fxmas)
+ (modes byte)
+ (libraries metaocaml_byte))

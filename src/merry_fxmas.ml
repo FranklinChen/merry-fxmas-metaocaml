@@ -21,10 +21,8 @@ let rec repeat_message_staged n =
     print_endline "Merry Christmas Bill 1!";
     ()
   end
+
+  test/print_code.expected pins down the exact code BER MetaOCaml
+  produces.
 *)
 let action_code = repeat_message_staged 25
-
-(*
-  Execute the code.
-*)
-let _ = Runcode.run action_code

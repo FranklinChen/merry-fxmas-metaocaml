@@ -1,0 +1,21 @@
+; See docs/ARCHITECTURE.md, "Why two tests".
+
+; The installed executable's output, end to end.
+
+(rule
+ (with-stdout-to
+  main.output
+  (run %{bin:merry-fxmas})))
+
+(rule
+ (alias runtest)
+ (action
+  (diff main.expected main.output)))
+
+; The generated code itself; dune diffs print_code's output against
+; print_code.expected.
+
+(test
+ (name print_code)
+ (modes byte)
+ (libraries metaocaml_byte merry_fxmas))
