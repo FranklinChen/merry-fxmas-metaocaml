@@ -12,8 +12,33 @@
  (action
   (diff main.expected main.output)))
 
+; Installed power executable's output (generated code plus its result).
+
+(rule
+ (with-stdout-to
+  power.output
+  (run %{bin:power})))
+
+(rule
+ (alias runtest)
+ (action
+  (diff power.expected power.output)))
+
 ; The generated code itself; dune diffs print_code's output against
 ; print_code.expected.
+
+(test
+ (name power_code)
+ (modes byte)
+ (libraries metaocaml_byte power_staged))
+
+; Algebraic sanity checks on the specialized functions: these exercise a
+; case the generated-code test does not (n = 0) and a result it does not
+; (2 ** 5 == 32).
+(test
+ (name power_values)
+ (modes byte)
+ (libraries metaocaml_byte power_staged))
 
 (test
  (name print_code)

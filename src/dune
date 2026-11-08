@@ -1,6 +1,13 @@
-; The staged generator. Bytecode only; see docs/ARCHITECTURE.md, "Bytecode only".
+; The staged generators. Bytecode only; see docs/ARCHITECTURE.md, "Bytecode only".
 
 (library
  (name merry_fxmas)
+ (modules merry_fxmas)
+ (modes byte)
+ (libraries metaocaml_byte))
+
+(library
+ (name power_staged)
+ (modules power_staged)
  (modes byte)
  (libraries metaocaml_byte))

@@ -1,7 +1,8 @@
 ; Bytecode only; see docs/ARCHITECTURE.md, "Bytecode only".
+; See src/metaocaml_byte/dune for why metaocaml_byte comes first.
 
-(executable
- (name main)
- (public_name merry-fxmas)
+(executables
+ (names main power)
+ (public_names merry-fxmas power)
  (modes byte)
- (libraries metaocaml_byte merry_fxmas))
+ (libraries metaocaml_byte merry_fxmas power_staged))

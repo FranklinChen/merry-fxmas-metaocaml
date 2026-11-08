@@ -122,6 +122,33 @@ let () = Runcode.run Merry_fxmas.action_code
 
 The boundary is not something the compiler infers: **you draw it**, with brackets and escapes. That explicitness is the point. Move a computation inside a bracket and it moves to stage 2; the next section shows this.
 
+## A second example: unrolling `power`
+
+The package also ships `power`, a second executable that runs the classic
+specialization exercise hidden in the staged `power n x`:
+
+```console
+$ dune exec power
+.<fun x_1 -> x_1 * (x_1 * (x_1 * (x_1 * (x_1 * 1))))>.
+
+32
+```
+
+The recursion, the counter and the choice of exponent all happened in stage
+1; what survives is plain multiplication. Its test is the same two-part
+pattern as `merry-fxmas`: the installed program's output and the exact
+generated code.
+
+## A rough performance check
+
+```console
+$ dune exec ./bench/bench.exe
+```
+
+compares a plain recursive loop against the specialized function. In
+bytecode the staged version is already clearly faster; the gap grows with
+more complicated generators such as matrix kernels.
+
 ## Try it yourself
 
 The switch includes `metaocaml`, a toplevel (REPL) that understands brackets and escapes. Start it from the project root, after `eval $(opam env)`:
@@ -213,6 +240,11 @@ val f : int -> int = <fun>
 
 The recursion on `n` is gone from the generated function; what remains is straight multiplication. Notice also that MetaOCaml renamed `x` to `x_1`: generated code is *hygienic*, so a variable bound in generated code can never be captured by accident.
 
+There are four tests in total: the output test and the generated-code
+test for `merry-fxmas`, and the same pair for `power`. The latter pair
+also covers the boundary case `power_fun 0`, which is not something the
+countdown example exercises.
+
 ## How the tests prove the code is staged
 
 `dune test` runs two checks, and they guard different things:
@@ -228,6 +260,8 @@ The output test alone cannot tell a staged program from an unstaged one: a gener
 | --- | --- |
 | [`src/merry_fxmas.ml`](src/merry_fxmas.ml) | The staged generator (library `merry_fxmas`). |
 | [`bin/main.ml`](bin/main.ml) | The `merry-fxmas` program: runs the generated code. |
+| [`bin/power.ml`](bin/power.ml) | `power n`: specialization of integer power for a fixed `n`. |
+| [`bench/bench.ml`](bench/bench.ml) | A toy benchmark of staged against unstaged code. |
 | [`test/`](test/) | The two tests described above. |
 | [`dune-project`](dune-project) | Package metadata; `merry-fxmas.opam` is generated from it. |
 | [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | How the build is wired to the MetaOCaml compiler, and why. |

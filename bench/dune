@@ -1,0 +1,5 @@
+; A toy benchmark, run with `dune exec bench`. It is not installed.
+(executable
+ (name bench)
+ (modes byte)
+ (libraries unix metaocaml_byte power_staged))
